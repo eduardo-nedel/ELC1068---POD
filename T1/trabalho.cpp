@@ -9,14 +9,20 @@ int main()
 
     leitorArquivo.open("entrada1.txt");
 
-    char saida[100];
+    if (!leitorArquivo.is_open()){
+        cout << "Erro ao ler o Arquivo" << endl;
+    }
+
+    char saida;
 
     if (leitorArquivo.is_open()) {
         while (!leitorArquivo.eof()) {
-            leitorArquivo >> saida;
+            leitorArquivo >> saida >> noskipws;
             cout << saida;
         }
     }
+
     leitorArquivo.close();
+
     return 0;
 }
