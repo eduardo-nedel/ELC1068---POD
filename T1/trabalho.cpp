@@ -65,7 +65,7 @@ int main()
                         mandar << palavras[i];
                     mandar.close();
 
-                    //apaganos as palavras
+                    //apagamos as palavras
                     palavras.clear();
 
                     //alimentamos o vector de palavras
@@ -94,7 +94,7 @@ int main()
                         mandar << palavras[i];
                     mandar.close();
 
-                    //apaganos as palavras
+                    //apagamos as palavras
                     palavras.clear();
                 }
                 else {
