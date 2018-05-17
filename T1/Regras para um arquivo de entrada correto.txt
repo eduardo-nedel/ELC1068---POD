@@ -1,0 +1,2 @@
+1- Use qualquer tipo de texto
+2- Tenha certeza que o ultimo caractere do texto não seja uma letra
