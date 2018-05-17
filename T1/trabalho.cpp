@@ -17,36 +17,24 @@ int num_char(vector <string> palavras) {
     return cont;
 }
 
-// Função que retorna true se str é > que str2, ou seja, tem tamanho maior ou tem menor precedência alfabética, e retorna false se contrário 
-bool compara_string(string str, string str2) {
-    if(str.size() > str2.size())
-        return true;
-    else if(str.size() < str2.size())
-        return false;
-
-    for (int i = 0; i < str.size(); ++i) {
-        if(str[i] < str2[i])
-            return false;
-        else if(str[i] > str2[i])
-            return true;
-    }
-    return true;
-}
-
 int main()
 {
     int num_bites = 0;
-    cout << "Digite o numero de bits que voce deseja ter em memoria" << endl;
-    cin >> num_bites;
-    
-    
-    ifstream arqEntrada ("entrada1.txt");
 
+    // Pede ao usuário para informar o tamanho da memória
+    
+    // Arquivo de entrada
+    fstream arqEntrada ("entrada.txt");
+
+    // Testa se o arquivos está aberto
     if (!arqEntrada.is_open()){
         cout << "Erro ao ler o Arquivo" << endl;
     }
     else {
 
+        cout << "Digite o numero de bits que voce deseja ter em memoria" << endl;
+        cin >> num_bites;
+        
         string str;
         char saida;
         vector <string> palavras;
@@ -56,19 +44,19 @@ int main()
         // Separa os blocos em arquivos
         while (!arqEntrada.eof()) {
             arqEntrada >> saida >> noskipws;
-
             // Separa em palavras e verifica se a memória irá estourar
             while (((tolower(saida) >= 'a' && tolower(saida) <= 'z') || (saida >= '0' && saida <= '9')) && continuar) {
                 str.push_back(tolower(saida));
                 arqEntrada >> saida >> noskipws;
+                cout << saida  << "teste"<< endl;
             }
 
-            if(str.size() > num_bites) {
+            if(str.size() > num_bites || str.size() <= 0) {
                 str.clear();
                 continuar = false;
             }
 
-            if (continuar && str.size() > 0) {
+            if (continuar) {
 
                 if (str.size() + num_char(palavras) > num_bites){
                     // Cria um arquivo
@@ -150,7 +138,7 @@ int main()
             int num_arq_escrita = 1;
             for (int i = 1; i <= j; i++) {
                 // Cria um arquivo auxiliar
-                ofstream arq_aux ("auxiliar.txt", ofstream::trunc);
+                ofstream arq_aux ("auxiliar.txt");
 
                 // Abertura dos arquivos
                 string aux = "Temp";
@@ -165,11 +153,6 @@ int main()
                 aux2 += ".txt";
                 ifstream ler2 (aux2);
 
-                // Se i é maior que j, então o arquivo contido em ler2 não existe
-                if (i > j) {
-                    ler2.close();
-                }
-
                 string str1, str2;
                 if (ler1.is_open()) 
                     ler1 >> str1;
@@ -179,7 +162,7 @@ int main()
                 // Enquanto não acabar um dos arquivos, le palavras, compara as palavras e adiciona no arquivo auxiliar
                 while(ler1.is_open() && ler2.is_open() && !ler1.eof() && !ler2.eof()){
                     // Encontra a menor palavra e a adiciona no arquivo auxiliar, além disso, organiza os espaços
-                    if(compara_string(str1, str2)) {
+                    if(str1.compare(str2) >=0) {
                         arq_aux << str2;
                         arq_aux << ' ';
                         ler2 >> str2;
@@ -192,14 +175,14 @@ int main()
                 }
                 // Se um dos arquivos não tiver acabado, adiciona no arquivo auxiliar até chegar ao fim
                 while(ler1.is_open() && !ler1.eof()) {
-                    ler1 >> str1;
                     arq_aux << str1;
                     arq_aux << ' ';
+                    ler1 >> str1;
                 }
                 while(ler2.is_open() && !ler2.eof()) {
-                    ler2 >> str2;
                     arq_aux << str2;
                     arq_aux << ' ';
+                    ler2 >> str2;
                 }
 
                 // Fecha os arquivos
